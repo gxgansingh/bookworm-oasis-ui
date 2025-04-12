@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Bell, User, Menu } from 'lucide-react';
+import { Search, Bell, User, Menu, Settings } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -81,6 +81,12 @@ const Navbar = () => {
             >
               Transactions
             </Link>
+            <Link 
+              to="/admin" 
+              className={`font-medium text-sm ${isActive('/admin') ? 'text-library-800 border-b-2 border-library-700 pb-1' : 'text-gray-500 hover:text-library-600'}`}
+            >
+              Admin
+            </Link>
           </div>
         </div>
         
@@ -102,7 +108,13 @@ const Navbar = () => {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link to="/admin" className="flex items-center">
+                  <Settings className="h-4 w-4 mr-2" />
+                  Admin Panel
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -138,6 +150,12 @@ const Navbar = () => {
             className={`block font-medium text-sm ${isActive('/transactions') ? 'text-library-800' : 'text-gray-500'}`}
           >
             Transactions
+          </Link>
+          <Link 
+            to="/admin" 
+            className={`block font-medium text-sm ${isActive('/admin') ? 'text-library-800' : 'text-gray-500'}`}
+          >
+            Admin
           </Link>
         </div>
       )}
