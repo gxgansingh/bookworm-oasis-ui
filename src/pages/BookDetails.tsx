@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import DashboardLayout from '@/components/DashboardLayout';
@@ -9,7 +8,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookProps } from '@/components/BookCard';
 import { ArrowLeft, Edit, Trash, BookOpen, User, Calendar } from 'lucide-react';
 
-// Mock data for book details
 const mockBooks: Record<string, BookProps & { 
   publisher?: string;
   publishedDate?: string;
@@ -27,7 +25,6 @@ const mockBooks: Record<string, BookProps & {
     id: 1,
     title: 'The Midnight Library',
     author: 'Matt Haig',
-    coverImage: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=387&auto=format&fit=crop',
     status: 'available',
     category: 'Fiction',
     publisher: 'Viking',
@@ -147,7 +144,6 @@ const mockBooks: Record<string, BookProps & {
 const BookDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   
-  // In a real app, we would fetch the book details from an API
   const book = mockBooks[id || "1"];
   
   if (!book) {
@@ -193,14 +189,6 @@ const BookDetails: React.FC = () => {
         
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-1">
-            <div className="relative aspect-[2/3] overflow-hidden rounded-lg book-cover-shadow">
-              <img
-                src={book.coverImage}
-                alt={`${book.title} cover`}
-                className="absolute top-0 left-0 w-full h-full object-cover"
-              />
-            </div>
-            
             <div className="mt-6 space-y-4">
               <Button className="w-full">
                 {book.status === 'available' ? 'Issue Book' : 'Return Book'}
@@ -219,7 +207,7 @@ const BookDetails: React.FC = () => {
             </div>
           </div>
           
-          <div className="md:col-span-2 space-y-6">
+          <div className="md:col-span-3 space-y-6">
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <Badge className={getStatusColor(book.status)}>
