@@ -1,10 +1,10 @@
+
 import React, { useState } from 'react';
-import { DashboardLayout } from '@/components/DashboardLayout';
+import DashboardLayout from '@/components/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Check, Clock, CornerDownLeft, Filter, Plus, Search } from 'lucide-react';
 import SearchBar from '@/components/SearchBar';
