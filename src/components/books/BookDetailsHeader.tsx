@@ -32,8 +32,8 @@ const BookDetailsHeader: React.FC<BookDetailsHeaderProps> = ({
   const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
   
   return (
-    <div>
-      <div className="flex items-center gap-3 mb-2">
+    <div className="bg-white p-6 rounded-lg border shadow-sm">
+      <div className="flex items-center gap-3 mb-3">
         <Badge className={getStatusColor(status)}>
           {statusLabel}
         </Badge>
@@ -45,7 +45,7 @@ const BookDetailsHeader: React.FC<BookDetailsHeaderProps> = ({
       </div>
       
       <h1 className="text-3xl font-bold font-heading">{title}</h1>
-      <p className="text-lg text-gray-600 mt-1">by {author}</p>
+      <p className="text-lg text-gray-600 mt-2">by {author}</p>
     </div>
   );
 };

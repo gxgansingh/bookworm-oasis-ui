@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import DashboardLayout from '@/components/DashboardLayout';
@@ -174,42 +175,44 @@ const BookDetails: React.FC = () => {
           <h1 className="text-2xl font-bold">Book Details</h1>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-1">
-            <BookActions status={book.status} />
-          </div>
+        <div className="grid grid-cols-1 gap-8">
+          <BookDetailsHeader 
+            title={book.title}
+            author={book.author}
+            status={book.status}
+            category={book.category}
+          />
           
-          <div className="md:col-span-3 space-y-6">
-            <BookDetailsHeader 
-              title={book.title}
-              author={book.author}
-              status={book.status}
-              category={book.category}
-            />
+          <div className="grid md:grid-cols-4 gap-6">
+            <div className="md:col-span-1">
+              <BookActions status={book.status} />
+            </div>
             
-            <Tabs defaultValue="details">
-              <TabsList>
-                <TabsTrigger value="details">Book Details</TabsTrigger>
-                <TabsTrigger value="history">Borrowing History</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="details" className="pt-6">
-                <BookDetailsTab
-                  description={book.description}
-                  publisher={book.publisher}
-                  publishedDate={book.publishedDate}
-                  pages={book.pages}
-                  language={book.language}
-                  status={book.status}
-                />
-              </TabsContent>
-              
-              <TabsContent value="history" className="pt-6">
-                <BorrowingHistoryTab 
-                  borrowingHistory={book.borrowingHistory}
-                />
-              </TabsContent>
-            </Tabs>
+            <div className="md:col-span-3">
+              <Tabs defaultValue="details" className="w-full">
+                <TabsList className="w-full justify-start">
+                  <TabsTrigger value="details">Book Details</TabsTrigger>
+                  <TabsTrigger value="history">Borrowing History</TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="details" className="pt-6">
+                  <BookDetailsTab
+                    description={book.description}
+                    publisher={book.publisher}
+                    publishedDate={book.publishedDate}
+                    pages={book.pages}
+                    language={book.language}
+                    status={book.status}
+                  />
+                </TabsContent>
+                
+                <TabsContent value="history" className="pt-6">
+                  <BorrowingHistoryTab 
+                    borrowingHistory={book.borrowingHistory}
+                  />
+                </TabsContent>
+              </Tabs>
+            </div>
           </div>
         </div>
       </div>
