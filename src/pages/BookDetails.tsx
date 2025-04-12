@@ -11,7 +11,6 @@ import { ArrowLeft, Edit, Trash, BookOpen, User, Calendar } from 'lucide-react';
 
 // Mock data for book details
 const mockBooks: Record<string, BookProps & { 
-  isbn?: string;
   publisher?: string;
   publishedDate?: string;
   pages?: number;
@@ -31,7 +30,6 @@ const mockBooks: Record<string, BookProps & {
     coverImage: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=387&auto=format&fit=crop',
     status: 'available',
     category: 'Fiction',
-    isbn: '978-0525559474',
     publisher: 'Viking',
     publishedDate: '2020-08-13',
     pages: 304,
@@ -58,6 +56,59 @@ const mockBooks: Record<string, BookProps & {
       }
     ]
   },
+  "2": {
+    id: 2,
+    title: 'Atomic Habits',
+    author: 'James Clear',
+    status: 'borrowed',
+    category: 'Self-Help',
+    publisher: 'Avery',
+    publishedDate: '2018-10-16',
+    pages: 320,
+    language: 'English',
+    description: 'No matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world\'s leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results.',
+    borrowingHistory: [
+      {
+        id: 1,
+        memberName: 'Robert Johnson',
+        borrowDate: '2025-03-01',
+        returnDate: null
+      }
+    ]
+  },
+  "3": {
+    id: 3,
+    title: 'Educated',
+    author: 'Tara Westover',
+    status: 'available',
+    category: 'Memoir',
+    publisher: 'Random House',
+    publishedDate: '2018-02-20',
+    pages: 352,
+    language: 'English',
+    description: 'Born to survivalists in the mountains of Idaho, Tara Westover was seventeen the first time she set foot in a classroom. Her family was so isolated from mainstream society that there was no one to ensure the children received an education, and no one to intervene when one of Tara\'s older brothers became violent.',
+    borrowingHistory: []
+  },
+  "4": {
+    id: 4,
+    title: 'Project Hail Mary',
+    author: 'Andy Weir',
+    status: 'reserved',
+    category: 'Sci-Fi',
+    publisher: 'Ballantine Books',
+    publishedDate: '2021-05-04',
+    pages: 496,
+    language: 'English',
+    description: 'Ryland Grace is the sole survivor on a desperate, last-chance mission—and if he fails, humanity and the Earth itself will perish. Except that right now, he doesn\'t know that. He can\'t even remember his own name, let alone the nature of his assignment or how to complete it.',
+    borrowingHistory: [
+      {
+        id: 1,
+        memberName: 'Michael Lee',
+        borrowDate: '2024-12-15',
+        returnDate: '2025-01-15'
+      }
+    ]
+  },
   "5": {
     id: 5,
     title: 'Dune',
@@ -65,7 +116,6 @@ const mockBooks: Record<string, BookProps & {
     coverImage: 'https://images.unsplash.com/photo-1531072901881-d644216d4bf9?q=80&w=387&auto=format&fit=crop',
     status: 'borrowed',
     category: 'Sci-Fi',
-    isbn: '978-0441172719',
     publisher: 'Ace',
     publishedDate: '1965-08-01',
     pages: 896,
@@ -199,14 +249,6 @@ const BookDetails: React.FC = () => {
                       <p className="text-gray-700">{book.description}</p>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="flex items-start gap-2">
-                          <BookOpen className="h-5 w-5 text-library-600 mt-0.5" />
-                          <div>
-                            <p className="text-sm font-medium">ISBN</p>
-                            <p className="text-sm text-gray-600">{book.isbn}</p>
-                          </div>
-                        </div>
-                        
                         <div className="flex items-start gap-2">
                           <User className="h-5 w-5 text-library-600 mt-0.5" />
                           <div>

@@ -11,9 +11,10 @@ export interface BookProps {
   status: string;
   category: string;
   coverImage?: string; // Made optional
+  description?: string; // Added description field
 }
 
-const BookCard: React.FC<BookProps> = ({ id, title, author, status, category }) => {
+const BookCard: React.FC<BookProps> = ({ id, title, author, status, category, coverImage }) => {
   return (
     <Link to={`/books/${id}`}>
       <Card className="h-full overflow-hidden transition-all hover:shadow-md">

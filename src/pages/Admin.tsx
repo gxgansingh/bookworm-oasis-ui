@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import DashboardLayout from '@/components/DashboardLayout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -50,8 +49,8 @@ const allBooks = [
     author: 'Matt Haig',
     status: 'available',
     category: 'Fiction',
-    isbn: '9780525559474',
-    publishedDate: '2020-08-13'
+    publishedDate: '2020-08-13',
+    description: 'Between life and death there is a library...'
   },
   {
     id: 2,
@@ -59,8 +58,8 @@ const allBooks = [
     author: 'James Clear',
     status: 'borrowed',
     category: 'Self-Help',
-    isbn: '9780735211292',
-    publishedDate: '2018-10-16'
+    publishedDate: '2018-10-16',
+    description: 'No matter your goals, Atomic Habits offers a proven framework...'
   },
   {
     id: 3,
@@ -68,8 +67,8 @@ const allBooks = [
     author: 'Tara Westover',
     status: 'available',
     category: 'Memoir',
-    isbn: '9780399590504',
-    publishedDate: '2018-02-20'
+    publishedDate: '2018-02-20',
+    description: 'Born to survivalists in the mountains of Idaho...'
   },
   {
     id: 4,
@@ -77,8 +76,8 @@ const allBooks = [
     author: 'Andy Weir',
     status: 'reserved',
     category: 'Sci-Fi',
-    isbn: '9780593135204',
-    publishedDate: '2021-05-04'
+    publishedDate: '2021-05-04',
+    description: 'Ryland Grace is the sole survivor on a desperate, last-chance mission...'
   },
   {
     id: 5,
@@ -86,8 +85,8 @@ const allBooks = [
     author: 'Frank Herbert',
     status: 'borrowed',
     category: 'Sci-Fi',
-    isbn: '9780441172719',
-    publishedDate: '1965-08-01'
+    publishedDate: '1965-08-01',
+    description: 'Set on the desert planet Arrakis, Dune is the story of the boy Paul Atreides...'
   },
 ];
 
@@ -163,8 +162,8 @@ const Admin: React.FC = () => {
     title: '',
     author: '',
     category: '',
-    isbn: '',
-    publishedDate: ''
+    publishedDate: '',
+    description: ''
   });
   
   // New member form state
@@ -198,7 +197,7 @@ const Admin: React.FC = () => {
       book => 
         book.title.toLowerCase().includes(e.target.value.toLowerCase()) || 
         book.author.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        book.isbn.includes(e.target.value)
+        book.category.toLowerCase().includes(e.target.value.toLowerCase())
     );
     
     setBooks(filtered);
@@ -263,8 +262,8 @@ const Admin: React.FC = () => {
       title: newBook.title,
       author: newBook.author,
       category: newBook.category,
-      isbn: newBook.isbn,
       publishedDate: newBook.publishedDate,
+      description: newBook.description,
       status: 'available'
     };
     
@@ -274,8 +273,8 @@ const Admin: React.FC = () => {
       title: '',
       author: '',
       category: '',
-      isbn: '',
-      publishedDate: ''
+      publishedDate: '',
+      description: ''
     });
     
     toast.success("Book added successfully");
@@ -503,17 +502,6 @@ const Admin: React.FC = () => {
                           </Select>
                         </div>
                         <div className="grid gap-2">
-                          <Label htmlFor="isbn">ISBN</Label>
-                          <Input
-                            id="isbn"
-                            name="isbn"
-                            placeholder="ISBN number"
-                            value={newBook.isbn}
-                            onChange={handleBookFormChange}
-                            required
-                          />
-                        </div>
-                        <div className="grid gap-2">
                           <Label htmlFor="publishedDate">Published Date</Label>
                           <Input
                             id="publishedDate"
@@ -521,6 +509,18 @@ const Admin: React.FC = () => {
                             type="date"
                             value={newBook.publishedDate}
                             onChange={handleBookFormChange}
+                            required
+                          />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="description">Description</Label>
+                          <Textarea
+                            id="description"
+                            name="description"
+                            placeholder="Book description"
+                            value={newBook.description}
+                            onChange={handleBookFormChange}
+                            rows={3}
                             required
                           />
                         </div>
@@ -660,7 +660,7 @@ const Admin: React.FC = () => {
                     <TableHead>Title</TableHead>
                     <TableHead>Author</TableHead>
                     <TableHead>Category</TableHead>
-                    <TableHead>ISBN</TableHead>
+                    <TableHead>Description</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead className="w-[80px]"></TableHead>
                   </TableRow>
@@ -671,7 +671,7 @@ const Admin: React.FC = () => {
                       <TableCell className="font-medium">{book.title}</TableCell>
                       <TableCell>{book.author}</TableCell>
                       <TableCell>{book.category}</TableCell>
-                      <TableCell>{book.isbn}</TableCell>
+                      <TableCell className="max-w-[200px] truncate">{book.description}</TableCell>
                       <TableCell>
                         {book.status === 'available' ? (
                           <Badge className="bg-green-100 text-green-800 border-green-200">
