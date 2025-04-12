@@ -1,7 +1,5 @@
-
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { BookProps } from '@/components/BookCard';
 
 type BookDetailsHeaderProps = {
   title: string;
