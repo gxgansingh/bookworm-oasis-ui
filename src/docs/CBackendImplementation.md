@@ -1,4 +1,3 @@
-
 # C Backend Implementation
 
 ## Setup and Installation
@@ -265,7 +264,122 @@ char* route_request(const char *url, const char *method, const char *data) {
 }
 ```
 
-### 4. Frontend Integration (src/utils/api.ts)
+### 4. Authentication Implementation (auth.c)
+```c
+#include <openssl/sha.h>
+#include <string.h>
+#include <time.h>
+#include <jwt.h>
+#include "db_conn.h"
+
+// Hash password using SHA-256
+char* hash_password(const char* password) {
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+    SHA256_Update(&sha256, password, strlen(password));
+    SHA256_Final(hash, &sha256);
+    
+    char* hash_string = malloc(SHA256_DIGEST_LENGTH * 2 + 1);
+    for(int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+        sprintf(hash_string + (i * 2), "%02x", hash[i]);
+    
+    return hash_string;
+}
+
+// Verify user credentials and generate JWT token
+char* login_user(const char* username, const char* password) {
+    MYSQL_RES *result;
+    MYSQL_ROW row;
+    char query[512];
+    char* hashed_pass = hash_password(password);
+    
+    sprintf(query, "SELECT id, role FROM users WHERE username='%s' AND password_hash='%s'",
+            username, hashed_pass);
+    
+    result = execute_query(query);
+    free(hashed_pass);
+    
+    if (!result)
+        return NULL;
+        
+    row = mysql_fetch_row(result);
+    if (!row) {
+        mysql_free_result(result);
+        return NULL;
+    }
+    
+    // Generate JWT token
+    jwt_t *jwt;
+    if (jwt_new(&jwt) != 0)
+        return NULL;
+        
+    // Set JWT claims
+    jwt_add_grant(jwt, "user_id", row[0]);
+    jwt_add_grant(jwt, "role", row[1]);
+    jwt_add_grant(jwt, "exp", time(NULL) + 3600); // 1 hour expiration
+    
+    // Sign token with secret key
+    char *token = jwt_encode_str(jwt);
+    jwt_free(jwt);
+    mysql_free_result(result);
+    
+    return token;
+}
+
+// Verify JWT token
+int verify_token(const char* token) {
+    jwt_t *jwt;
+    if (jwt_decode(&jwt, token, NULL, 0) != 0)
+        return 0;
+    
+    time_t exp = jwt_get_grant_int(jwt, "exp");
+    int valid = exp > time(NULL);
+    jwt_free(jwt);
+    
+    return valid;
+}
+
+// Handle login request
+char* handle_login(const char* request_body) {
+    json_t *root = json_loads(request_body, 0, NULL);
+    if (!root)
+        return strdup("{\"error\": \"Invalid request body\"}");
+    
+    const char *username = json_string_value(json_object_get(root, "username"));
+    const char *password = json_string_value(json_object_get(root, "password"));
+    
+    if (!username || !password) {
+        json_decref(root);
+        return strdup("{\"error\": \"Missing credentials\"}");
+    }
+    
+    char *token = login_user(username, password);
+    json_decref(root);
+    
+    if (!token)
+        return strdup("{\"error\": \"Invalid credentials\"}");
+    
+    json_t *response = json_object();
+    json_object_set_new(response, "token", json_string(token));
+    free(token);
+    
+    char *json_str = json_dumps(response, JSON_INDENT(2));
+    json_decref(response);
+    
+    return json_str;
+}
+```
+
+### Authentication Routes
+```c
+// Add to route_request function
+if (strcmp(url, "/api/login") == 0 && strcmp(method, "POST") == 0) {
+    return handle_login(data);
+}
+```
+
+### 5. Frontend Integration (src/utils/api.ts)
 
 <lov-write file_path="src/utils/api.ts">
 /**

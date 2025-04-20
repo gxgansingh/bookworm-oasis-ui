@@ -1,9 +1,20 @@
-
 # MySQL Database Schema
 
 ## Tables
 
-### 1. books
+### 1. users
+```sql
+CREATE TABLE users (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(255) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  role ENUM('admin', 'librarian', 'member') NOT NULL DEFAULT 'member',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_login TIMESTAMP
+);
+```
+
+### 2. books
 ```sql
 CREATE TABLE books (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -19,7 +30,7 @@ CREATE TABLE books (
 );
 ```
 
-### 2. members
+### 3. members
 ```sql
 CREATE TABLE members (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -32,7 +43,7 @@ CREATE TABLE members (
 );
 ```
 
-### 3. transactions
+### 4. transactions
 ```sql
 CREATE TABLE transactions (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -48,7 +59,7 @@ CREATE TABLE transactions (
 );
 ```
 
-### 4. fines
+### 5. fines
 ```sql
 CREATE TABLE fines (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -68,6 +79,8 @@ CREATE INDEX idx_books_status ON books(status);
 CREATE INDEX idx_transactions_book_id ON transactions(book_id);
 CREATE INDEX idx_transactions_member_id ON transactions(member_id);
 CREATE INDEX idx_transactions_status ON transactions(status);
+CREATE INDEX idx_users_username ON users(username);
+CREATE INDEX idx_users_role ON users(role);
 ```
 
 ## Triggers
