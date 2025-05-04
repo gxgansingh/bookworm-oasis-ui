@@ -20,6 +20,11 @@ export type BookDetailsType = {
   pages?: number;
   language?: string;
   description?: string;
+  isbn?: string;
+  format?: string;
+  edition?: string;
+  dimensions?: string;
+  weight?: string;
   borrowingHistory?: Array<{
     id: number;
     memberName: string;
@@ -72,6 +77,11 @@ const BookDetailsLayout: React.FC<BookDetailsLayoutProps> = ({ book }) => {
                   pages={book.pages}
                   language={book.language}
                   status={book.status}
+                  isbn={book.isbn}
+                  format={book.format}
+                  edition={book.edition}
+                  dimensions={book.dimensions}
+                  weight={book.weight}
                 />
               </TabsContent>
               

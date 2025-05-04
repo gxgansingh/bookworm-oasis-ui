@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Book, Calendar, BookOpen, Globe, AlertCircle } from 'lucide-react';
+import { Book, Calendar, BookOpen, Globe, AlertCircle, BookText } from 'lucide-react';
 
 type BookMetadataProps = {
   publisher?: string;
@@ -8,6 +8,7 @@ type BookMetadataProps = {
   pages?: number;
   language?: string;
   status: string;
+  isbn?: string;
 };
 
 const BookMetadataItem = ({ icon, label, value }: { icon: React.ReactNode, label: string, value?: string | number }) => (
@@ -28,6 +29,7 @@ const BookMetadata: React.FC<BookMetadataProps> = ({
   pages,
   language,
   status,
+  isbn,
 }) => {
   const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
   
@@ -61,6 +63,12 @@ const BookMetadata: React.FC<BookMetadataProps> = ({
         icon={<AlertCircle className="h-5 w-5" />}
         label="Status"
         value={statusLabel}
+      />
+
+      <BookMetadataItem
+        icon={<BookText className="h-5 w-5" />}
+        label="ISBN"
+        value={isbn}
       />
     </div>
   );
