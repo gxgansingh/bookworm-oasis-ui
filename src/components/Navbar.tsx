@@ -1,8 +1,9 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Bell, User, Menu, Settings } from 'lucide-react';
+import { Search, Bell, User, Menu, Settings, LogOut } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { logout } from '@/utils/authApi';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +16,15 @@ import {
 const Navbar = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const { toast } = useToast();
+  
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully.",
+    });
+  };
   
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -115,7 +125,10 @@ const Navbar = () => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           
